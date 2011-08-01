@@ -14,12 +14,12 @@ def get_working_set(request):
             try:
                 working_set = request.session['set']
             except KeyError:
-                working_set = 'M12'
+                working_set = 'M12 - Magic 2012'
     else:
         try:
             working_set = request.session['set']
         except KeyError:
-            working_set = 'M12'
+            working_set = 'M12 - Magic 2012'
 
     request.session['working_set'] = working_set
     return working_set
