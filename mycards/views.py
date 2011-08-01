@@ -95,10 +95,11 @@ def search(request):
             return index(request)
 
     s = get_working_set(request)
-    sets_with_cards = Cards.objects.filter(name__icontains=search).values_list('mtgset', flat=True).distinct()
     if search_type == 'name':
+        sets_with_cards = Cards.objects.filter(name__icontains=search).values_list('mtgset', flat=True).distinct()
         cards = Cards.objects.all().filter(name__icontains=search)
     elif search_type =='type':
+        sets_with_cards = Cards.objects.filter(type__icontains=search).values_list('mtgset', flat=True).distinct()
         cards = Cards.objects.all().filter(type__icontains=search)
 
     s = get_working_set(request)
