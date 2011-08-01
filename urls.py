@@ -8,13 +8,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 urlpatterns = patterns('',
     # Examples:
     url(r'^$', 'mycards.views.index'),
-    # url(r'^mtg/', include('mtg.foo.urls')),
-
-    # Uncomment the admin/doc line below to enable admin documentation:
-    # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
-    # Uncomment the next line to enable the admin:
-    # url(r'^admin/', include(admin.site.urls)),
+    url(r'^gatherer/(.*)$', 'mycards.views.gatherer_lookup'),
 )
 
 urlpatterns += staticfiles_urlpatterns()

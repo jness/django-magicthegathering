@@ -18,6 +18,10 @@ p a:hover
 	cursor: default;
 }
 
+.hoverbox a:visited {
+	color: #0000FF;
+}
+
 .hoverbox a .preview
 {
 	display: none;

@@ -1,7 +1,10 @@
 from django.contrib.sessions.backends.file import SessionStore
+from django.http import HttpResponseRedirect
 from mycards.models import Cards
-from django.http import HttpResponse
 from django.shortcuts import render
+
+import urllib, urllib2
+import re
 
 def get_working_set(request):
     if request.method == 'GET':
@@ -24,6 +27,21 @@ def get_working_set(request):
 def sets():
     sets = Cards.objects.values_list('mtgset', flat=True).distinct()
     return sets
+
+def gatherer_lookup(request, card):
+    page = urllib2.urlopen('http://gatherer.wizards.com/Pages/Default.aspx').read()
+    viewstat = re.compile('<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="(.*)"').findall(page)
+    eventval = re.compile('<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="(.*)"').findall(page)
+
+    button = 'ctl00$ctl00$MainContent$Content$SearchControls$searchSubmitButton'
+    searchbox = 'ctl00$ctl00$MainContent$Content$SearchControls$CardSearchBoxParent$CardSearchBox'
+    post = {button: 'Search', searchbox: card, '__VIEWSTATE': viewstat[0], '__EVENTVALIDATION': eventval[0]}
+
+    req = urllib2.Request('http://gatherer.wizards.com/Pages/Default.aspx')
+    req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
+    req.add_data(urllib.urlencode(post))
+    results = urllib2.urlopen(req)
+    return HttpResponseRedirect(results.geturl())
 
 def index(request):
     # default order is by name
