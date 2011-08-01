@@ -26,7 +26,15 @@ def sets():
     return sets
 
 def index(request):
+    # default order is by name
+    order = 'name'
+
+    # check for ordering request
+    if request.method == 'GET':
+        if request.GET.has_key('order_by'):
+            order = request.GET['order_by']
+
     s = get_working_set(request)
-    cards = Cards.objects.filter(mtgset=s).order_by('name')
+    cards = Cards.objects.filter(mtgset=s).order_by(order)
     mtgsets = sets()
     return render(request, 'index.html', {'working_set': s, 'cards': cards, 'mtgsets': mtgsets})
