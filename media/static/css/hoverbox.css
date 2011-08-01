@@ -1,0 +1,111 @@
+*
+{
+	border: 0;
+	margin: 0;
+	padding: 0;
+}
+
+/* =Basic HTML, Non-essential
+----------------------------------------------------------------------*/
+
+a
+{
+	text-decoration: none;
+	color: blue
+}
+
+body
+{
+	background: #fff;
+	color: #777;
+	margin: 0 auto;
+	padding: 50px;
+	position: relative;
+}
+
+h1
+{
+	background: inherit;
+	border-bottom: 1px dashed #ccc;
+	color: #933;
+	font: 17px Georgia, serif;
+	margin: 0 0 10px;
+	padding: 0 0 5px;
+	text-align: center;
+}
+
+p
+{
+	clear: both;
+	font: 10px Verdana, sans-serif;
+	padding: 10px 0;
+	text-align: center;
+}
+
+p a
+{
+	background: inherit;
+	color: #777;
+}
+
+p a:hover
+{
+	background: inherit;
+	color: #000;
+}
+
+/* =Hoverbox Code
+----------------------------------------------------------------------*/
+
+.hoverbox
+{
+	cursor: default;
+	list-style: none;
+}
+
+.hoverbox a
+{
+	cursor: default;
+}
+
+.hoverbox a .preview
+{
+	display: none;
+}
+
+.hoverbox a:hover .preview
+{
+	display: block;
+	position: fixed;
+	left: 500px;
+        top: 150px;
+	z-index: 1;
+}
+
+.hoverbox img
+{
+	background: #fff;
+	border-color: #aaa #ccc #ddd #bbb;
+	border-style: solid;
+	border-width: 0px;
+	color: inherit;
+	padding: 2px;
+	vertical-align: top;
+}
+
+.hoverbox li
+{
+	color: inherit;
+	display: inline;
+	float: left;
+	margin: 3px;
+	padding: 5px;
+	position: relative;
+}
+
+.hoverbox .preview
+{
+	border-color: #000;
+	width: 312px;
+	height: 445px;
+}

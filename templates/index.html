@@ -1,0 +1,60 @@
+<html>
+<head>
+<title>Nessy's MTG Database</title>
+<link rel="stylesheet" href='/static/css/hoverbox.css' type="text/css" media="screen, projection" />
+<!--[if lte IE 7]>
+<link rel="stylesheet" href='/static/css/ie_fixes.css' type="text/css" media="screen, projection" />
+<![endif]-->
+</head>
+<body>
+
+<!-- start header --!>
+<center>
+<img src='/static/images/logo.jpg'></img><br>
+{% for set in mtgsets %}
+    <a href='?set={{ set }}'>{{ set }}</a>
+{% endfor %}
+<br></center>
+
+<!-- start card output --!>
+<ul class="hoverbox">
+<table width="1024" border="0" align="center">
+    <tr bgcolor="#7D98A6">
+        <td width="75"><b>Owned</b>
+        <td width="300"><b>Name</b>
+        <td width="300"><b>Type</b>
+        <td width="100"><b>Cost</b>
+        <td width="100"><b>Color</b>
+        <td width="110"><b>Damage</b>
+        <td width="110"><b>Rarity</b>
+    </tr>
+
+    {% for c in cards %}
+    <tr bgcolor='#eeeeee'>
+        <td>{{ c.owned }}</td>
+        <td>
+           <a class="hoverbox" href="http://magiccards.info{{ c.image }}">{{ c.name }}
+	      <img src="http://magiccards.info{{ c.image }}" alt="Loading..." class="preview" />
+      	   </a>
+       </td>
+        <td>{{ c.type }}</td>
+        <td>{{ c.cost }}</td>
+        <td>{{ c.color }}</td>
+        <td>{{ c.damage }}</td>
+        <td>{{ c.rarity }}</td>
+    </tr>
+    {% endfor %}
+</table>
+</ul>
+
+<!-- start footer --!>
+<br><br>
+<center>
+
+<a href="http://www.djangoproject.com/">
+ <img src="http://media.djangoproject.com/img/badges/djangomade124x25_grey.gif" border="0" alt="Made with Django." title="Made with Django." />
+</a>
+
+</center>
+</body>
+</html>
