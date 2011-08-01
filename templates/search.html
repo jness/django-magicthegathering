@@ -2,7 +2,9 @@
 <!-- start card output --!>
 <ul class="hoverbox">
 
+{% for set in sets_with_cards %}
 <center>
+<h2>{{ set }}</h2>
 <table width="1024" border="0" align="center">
     <tr bgcolor="#7D98A6">
         <td width="75"><b><a href='?order_by=owned'>Owned</a></b>
@@ -15,6 +17,7 @@
     </tr>
 
     {% for c in cards %}
+    {% if c.mtgset == set %}
 
     <tr bgcolor='#eeeeee'>
         <td>{{ c.owned }}</td>
@@ -40,8 +43,11 @@
 
         <td>{{ c.rarity }}</td>
     </tr>
+    {% endif %}
     {% endfor %}
 </table>
+<br><br>
+{% endfor %}
 </ul>
 
 <!-- start footer --!>

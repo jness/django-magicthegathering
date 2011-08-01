@@ -1,0 +1,48 @@
+<html>
+<head>
+<title>Nessy's MTG Database</title>
+<link rel="stylesheet" href='/static/css/hoverbox.css' type="text/css" media="screen, projection" />
+<!--[if lte IE 7]>
+<link rel="stylesheet" href='/static/css/ie_fixes.css' type="text/css" media="screen, projection" />
+<![endif]-->
+</head>
+<body>
+
+<a href="https://github.com/jness/magicthegathering_djangoweb">
+  <img style="position: absolute; top: 0; left: 0; border: 0;" 
+   src="/static/images/github.png"
+   alt="Fork me on GitHub">
+</a>
+
+<!-- start header --!>
+<a href='update'><p align='right'>update</p></a>
+<center>
+<img src='/static/images/logo.jpg'></img><br><br>
+
+<table width='1024' align='center'>
+    <tr>
+    <td width='512' align='center'>
+	<form name="input" action="." method="GET">
+	    <font size=3><b>Sets:</b></font>
+	    <select name="set">
+	    {% for set in mtgsets %}
+		{% if set == working_set %}
+		    <option selected>{{ set }}</option>
+		{% else %}
+		    <option>{{ set }}</option>
+		{% endif %}
+	    {% endfor %}
+	    </select>
+	<input type="submit" value="Go" />
+	</form>
+    </td>
+    <td width='512' align='center'>
+	<form name="input" action="search" method="GET">
+	    <font size=3><b>Search:</b></font>
+	    <input type="txt" name="name" />
+	<input type="submit" value="Go" />
+	</form>
+    </td>
+    </tr>
+</table>
+</center>
