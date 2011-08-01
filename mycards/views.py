@@ -86,10 +86,21 @@ def search(request):
     if request.method == 'GET':
         if request.GET.has_key('name'):
             search = request.GET['name']
+        else:
+            return index(request)
+
+        if request.GET.has_key('search_type'):
+            search_type = request.GET['search_type']
+        else:
+            return index(request)
 
     s = get_working_set(request)
     sets_with_cards = Cards.objects.filter(name__icontains=search).values_list('mtgset', flat=True).distinct()
-    cards = Cards.objects.all().filter(name__icontains=search)
+    if search_type == 'name':
+        cards = Cards.objects.all().filter(name__icontains=search)
+    elif search_type =='type':
+        cards = Cards.objects.all().filter(type__icontains=search)
+
     s = get_working_set(request)
     mtgsets = sets()
     return render(request, 'search.html', {'sets_with_cards': sets_with_cards, 'working_set': s, 'cards': cards, 'mtgsets': mtgsets})
