@@ -8,6 +8,8 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 urlpatterns = patterns('',
     # Examples:
     url(r'^$', 'mycards.views.index'),
+    url(r'^update$', 'mycards.views.update'),
+    url(r'^owned$', 'mycards.views.owned'),
     url(r'^gatherer/(.*)$', 'mycards.views.gatherer_lookup'),
 )
 

@@ -56,3 +56,29 @@ def index(request):
     cards = Cards.objects.filter(mtgset=s).order_by(order)
     mtgsets = sets()
     return render(request, 'index.html', {'working_set': s, 'cards': cards, 'mtgsets': mtgsets})
+
+def update(request):
+    # default order is by name
+    order = 'name'
+
+    # check for ordering request
+    if request.method == 'GET':
+        if request.GET.has_key('order_by'):
+            order = request.GET['order_by']
+
+    s = get_working_set(request)
+    cards = Cards.objects.filter(mtgset=s).order_by(order)
+    mtgsets = sets()
+    return render(request, 'update.html', {'working_set': s, 'cards': cards, 'mtgsets': mtgsets})
+
+
+def owned(request):
+    s = get_working_set(request)
+    # check for ordering request
+    for i in request.POST:
+        if i.isdigit():
+            card = Cards.objects.get(id=i)
+            card.owned = request.POST[i]
+            card.save()
+    return HttpResponseRedirect('/update')
+

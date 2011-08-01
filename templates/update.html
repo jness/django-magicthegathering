@@ -1,0 +1,99 @@
+<html>
+<head>
+<title>Nessy's MTG Database</title>
+<link rel="stylesheet" href='/static/css/hoverbox.css' type="text/css" media="screen, projection" />
+<!--[if lte IE 7]>
+<link rel="stylesheet" href='/static/css/ie_fixes.css' type="text/css" media="screen, projection" />
+<![endif]-->
+</head>
+<body>
+
+<a href="https://github.com/jness/magicthegathering_djangoweb">
+  <img style="position: absolute; top: 0; left: 0; border: 0;" 
+   src="/static/images/github.png"
+   alt="Fork me on GitHub">
+</a>
+
+<!-- start header --!>
+<center>
+<img src='/static/images/logo.jpg'></img><br>
+
+<form name="input" action="." method="GET">
+    <font size=3><b>Sets:</b></font>
+    <select name="set">
+    {% for set in mtgsets %}
+        {% if set == working_set %}
+      	    <option selected>{{ set }}</option>
+	{% else %}
+      	    <option>{{ set }}</option>
+	{% endif %}
+    {% endfor %}
+    </select>
+<input type="submit" value="Go" />
+</form>
+</center>
+
+<!-- start card output --!>
+<ul class="hoverbox">
+
+<center>
+<form name='owned' action='owned' method='POST'>{% csrf_token %}
+<table width="1024" border="0" align="center">
+    <tr bgcolor="#7D98A6">
+        <td width="75"><b><a href='?order_by=owned'>Owned</a></b>
+        <td width="300"><b><a href='?order_by=name'>Name</a></b>
+        <td width="300"><b><a href='?order_by=type'>Type</a></b>
+        <td width="100"><b>Cost</b>
+        <td width="100"><b>Color</b>
+        <td width="110"><b>Damage</b>
+        <td width="110"><b><a href='?order_by=rarity'>Rarity</a></b>
+    </tr>
+
+    {% for c in cards %}
+
+    <tr bgcolor='#eeeeee'>
+        <td>
+	    <input size='4' maxlength='10' type="text" name="{{ c.id }}" value="{{ c.owned }}"/>
+	</td>
+        
+	<td>
+           <a class="hoverbox" href="/gatherer/{{ c.name }}">{{ c.name }}
+	      <img src="http://magiccards.info{{ c.image }}" alt="Loading..." class="preview" />
+      	   </a>
+        </td>
+        <td>{{ c.type }}</td>
+        <td>{{ c.cost }}</td>
+
+	{% if c.color %}
+            <td><img src='/static/images/{{ c.color }}.gif' /></td>
+	{% else %}
+            <td></td>
+	{% endif %}
+
+	{% if c.damage %}
+            <td>{{ c.damage }}</td>
+        {% else %}
+            <td></td>
+        {% endif %}	
+
+        <td>{{ c.rarity }}</td>
+    </tr>
+    {% endfor %}
+</table>
+<br><br>
+<input type="submit" value="Submit" />
+</form>
+</ul>
+
+<!-- start footer --!>
+<br><br>
+<center>
+
+<a href="http://www.djangoproject.com/">
+ <img src="http://media.djangoproject.com/img/badges/djangomade124x25_grey.gif" 
+   border="0" alt="Made with Django." title="Made with Django." />
+</a>
+
+</center>
+</body>
+</html>
