@@ -88,8 +88,8 @@ def search(request):
             search = request.GET['name']
 
     s = get_working_set(request)
-    sets_with_cards = Cards.objects.filter(name__contains=search).values_list('mtgset', flat=True).distinct()
-    cards = Cards.objects.all().filter(name__contains=search)
+    sets_with_cards = Cards.objects.filter(name__icontains=search).values_list('mtgset', flat=True).distinct()
+    cards = Cards.objects.all().filter(name__icontains=search)
     s = get_working_set(request)
     mtgsets = sets()
     return render(request, 'search.html', {'sets_with_cards': sets_with_cards, 'working_set': s, 'cards': cards, 'mtgsets': mtgsets})
