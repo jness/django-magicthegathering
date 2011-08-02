@@ -64,7 +64,9 @@ def index(request):
     order = 'name'
     if request.method == 'GET':
         if request.GET.has_key('order_by'):
-            order = request.GET['order_by']
+            allowed = ['name', 'type', 'rarity']
+            if request.GET['order_by'] in allowed:
+                order = request.GET['order_by']
 
     s = get_working_set(request)
     try:
