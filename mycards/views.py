@@ -21,7 +21,7 @@ def get_working_set(request):
         except KeyError:
             working_set = 'M12 - Magic 2012'
 
-    request.session['working_set'] = working_set
+    request.session['set'] = working_set
     return working_set
 
 def sets():
@@ -102,7 +102,6 @@ def search(request):
         sets_with_cards = Cards.objects.filter(type__icontains=search).values_list('mtgset', flat=True).distinct()
         cards = Cards.objects.all().filter(type__icontains=search)
 
-    s = get_working_set(request)
     mtgsets = sets()
     return render(request, 'search.html', {'sets_with_cards': sets_with_cards, 'working_set': s, 'cards': cards, 'mtgsets': mtgsets})
 
