@@ -24,6 +24,7 @@ def get_display_all(request):
     return display_all
 
 def get_working_set(request):
+    mtgsets = sets()
     if request.method == 'GET':
         if request.GET.has_key('set'):
             working_set = request.GET['set']
@@ -37,8 +38,12 @@ def get_working_set(request):
         else:
             working_set = 'M12 - Magic 2012'
 
-    request.session['set'] = working_set
-    return working_set
+    if working_set in mtgsets:
+        request.session['set'] = working_set
+        return working_set
+    else:
+        request.session['set'] = 'M12 - Magic 2012'
+        return 'M12 - Magic 2012'
 
 def sets():
     sets = Cards.objects.values_list('mtgset', flat=True).distinct()
