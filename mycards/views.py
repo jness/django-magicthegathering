@@ -6,19 +6,35 @@ from django.shortcuts import render
 import urllib, urllib2
 import re
 
+def get_display_all(request):
+    if request.method == 'GET':
+        if request.GET.has_key('display'):
+            display_all = request.GET['display']
+        elif request.session.has_key('display'):
+            display_all = request.session['display']
+        else:
+            display_all = 0
+    else:
+        if request.session.has_key('display'):
+            display_all = request.session['display']
+        else:
+            display_all = 0
+
+    request.session['display'] = display_all
+    return display_all
+
 def get_working_set(request):
     if request.method == 'GET':
-        try:
+        if request.GET.has_key('set'):
             working_set = request.GET['set']
-        except KeyError:
-            try:
-                working_set = request.session['set']
-            except KeyError:
-                working_set = 'M12 - Magic 2012'
-    else:
-        try:
+        elif request.session.has_key('set'):
             working_set = request.session['set']
-        except KeyError:
+        else:
+            working_set = 'M12 - Magic 2012'
+    else:
+        if request.session.has_key('set'):
+            working_set = request.session['set']
+        else:
             working_set = 'M12 - Magic 2012'
 
     request.session['set'] = working_set
@@ -44,18 +60,23 @@ def gatherer_lookup(request, card):
     return HttpResponseRedirect(results.geturl())
 
 def index(request):
-    # default order is by name
-    order = 'name'
-
     # check for ordering request
+    order = 'name'
     if request.method == 'GET':
         if request.GET.has_key('order_by'):
             order = request.GET['order_by']
 
     s = get_working_set(request)
-    cards = Cards.objects.filter(mtgset=s).order_by(order)
+    try:
+        display = int(get_display_all(request))
+        if display > 1:
+            display = 1
+    except ValueError:
+        display = 0
+
+    cards = Cards.objects.filter(mtgset=s).order_by(order).filter(owned__gte='%s' % display)
     mtgsets = sets()
-    return render(request, 'index.html', {'working_set': s, 'cards': cards, 'mtgsets': mtgsets})
+    return render(request, 'index.html', {'display': display, 'working_set': s, 'cards': cards, 'mtgsets': mtgsets})
 
 def update(request):
     # default order is by name
@@ -95,6 +116,13 @@ def search(request):
             return index(request)
 
     s = get_working_set(request)
+    try:
+        display = int(get_display_all(request))
+        if display > 1:
+            display = 1
+    except ValueError:
+        display = 0
+
     if search_type == 'name':
         sets_with_cards = Cards.objects.filter(name__icontains=search).values_list('mtgset', flat=True).distinct()
         cards = Cards.objects.all().filter(name__icontains=search)
@@ -103,5 +131,5 @@ def search(request):
         cards = Cards.objects.all().filter(type__icontains=search)
 
     mtgsets = sets()
-    return render(request, 'search.html', {'sets_with_cards': sets_with_cards, 'working_set': s, 'cards': cards, 'mtgsets': mtgsets})
+    return render(request, 'search.html', {'display': display, 'sets_with_cards': sets_with_cards, 'working_set': s, 'cards': cards, 'mtgsets': mtgsets})
 

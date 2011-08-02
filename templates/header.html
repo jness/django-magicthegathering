@@ -21,7 +21,7 @@
 
 <table width='1024' align='center'>
     <tr>
-    <td width='512' align='center'>
+    <td width='341' align='center'>
 	<form name="input" action="." method="GET">
 	    <font size=3><b>Sets:</b></font>
 	    <select name="set">
@@ -36,7 +36,28 @@
 	<input type="submit" value="Go" />
 	</form>
     </td>
-    <td width='512' align='center'>
+
+    <td width='341' align='center'>
+	<form name="input" action="." method="GET">
+	    <font size=3><b>Display Mode:</b></font>
+	    <select name="display">
+		{% if display == 0 %}
+		    <option selected value='0'>All</option>
+		{% else %}
+		    <option value='0'>All</option>
+		{% endif %}
+		{% if display == 1 %}
+		    <option selected value='1'>Owned</option>
+		{% else %}
+		    <option value='1'>Owned</option>
+		{% endif %}
+
+	    </select>
+	<input type="submit" value="Go" />
+	</form>
+    </td>
+
+    <td width='341' align='center'>
 	<form name="input" action="search" method="GET">
 	    <font size=3><b>Search:</b></font>
 	    <input type="txt" name="name" />
