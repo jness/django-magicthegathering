@@ -52,7 +52,9 @@
 
     {% for c in cards %}
 
-    <tr bgcolor='#eeeeee'>
+    <tr bgcolor='#EEEEEE'
+           onmouseover="style.backgroundColor='#B0C4DE';"
+           onmouseout="style.backgroundColor='#EEEEEE';">
         <td>
 	    <input size='4' maxlength='10' type="text" name="{{ c.id }}" value="{{ c.owned }}"/>
 	</td>

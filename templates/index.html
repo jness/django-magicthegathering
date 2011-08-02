@@ -16,7 +16,9 @@
 
     {% for c in cards %}
 
-    <tr bgcolor='#eeeeee'>
+    <tr bgcolor='#EEEEEE' 
+	   onmouseover="style.backgroundColor='#B0C4DE';"
+	   onmouseout="style.backgroundColor='#EEEEEE';">
         <td>{{ c.owned }}</td>
         <td>
            <a class="hoverbox" href="/gatherer/{{ c.name }}">{{ c.name }}

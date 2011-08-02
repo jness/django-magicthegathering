@@ -1,3 +1,7 @@
+hover tr:hover {
+	background-color: red;
+}
+
 p a:hover
 {
 	background: inherit;
