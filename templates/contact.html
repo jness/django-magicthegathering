@@ -1,0 +1,39 @@
+<link rel="stylesheet" href='/static/css/ie_fixes.css' type="text/css" media="screen, projection" />
+</head>
+<body>
+
+<a href="https://github.com/jness/magicthegathering_djangoweb">
+  <img style="position: absolute; top: 0; left: 0; border: 0;" 
+   src="/static/images/github.png"
+   alt="Fork me on GitHub">
+</a>
+
+<!-- start header --!>
+<a href='update'><p align='right'><font size=2 color=blue>update</font></p></a>
+<center>
+<a href='/'><img border=0 src='/static/images/logo.jpg'></img></a><br><br>
+
+<center>
+<font color='red'><b>{{ captcha_response }}</b></font><br>
+<form action="/contact" method="POST">{% csrf_token %}
+<b>Your Name: </b><input type='text' name='name' maxlength='30' size='30' value='{{ name }}'/>
+<br>
+<textarea name='message' rows="12" cols="60">{{ message }}</textarea>
+<br><br>
+  <script type="text/javascript"  
+          src="http://api.recaptcha.net/challenge?k={{ key }}">  
+  </script>  
+
+  <noscript>  
+     <iframe src="http://api.recaptcha.net/noscript?k={{ key }}"  
+     height="300" width="500" frameborder="0"></iframe><br>  
+     <textarea name="recaptcha_challenge_field" rows="3" cols="40">  
+     </textarea>  
+     <input type="hidden" name="recaptcha_response_field"   
+     value="manual_challenge">  
+  </noscript> 
+<input type="submit" value="Send"/>
+</form>
+</center>
+
+{% include 'footer.html' %}

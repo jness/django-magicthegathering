@@ -1,8 +1,13 @@
 from django.contrib.sessions.backends.file import SessionStore
 from django.http import HttpResponseRedirect
+from django.conf import settings
+
 from mycards.models import Cards
 from django.shortcuts import render
 
+from recaptcha.client import captcha
+import smtplib
+from socket import error
 import urllib, urllib2
 import re
 
@@ -153,4 +158,45 @@ def search(request):
 
     mtgsets = sets()
     return render(request, 'search.html', {'display': display, 'sets_with_cards': sets_with_cards, 'working_set': s, 'cards': cards, 'mtgsets': mtgsets})
+
+def contact(request):
+
+    # if we didnt add our reCaptcha keys contact form is disabled
+    if not settings.RECAPTCHA_PRIVATE_KEY:
+        return HttpResponseRedirect('/')
+
+    captcha_response = ''
+    message = ''
+    name = ''
+
+    if request.method == 'POST':
+        if request.POST.has_key('message'):
+            message = request.POST.get('message')
+        if request.POST.has_key('name'):
+            name = request.POST.get('name')
+        response = captcha.submit(
+            request.POST.get('recaptcha_challenge_field'),
+            request.POST.get('recaptcha_response_field'),
+            settings.RECAPTCHA_PRIVATE_KEY,
+            request.META['REMOTE_ADDR'],)
+
+        if name and message:
+            if response.is_valid:
+                from django.http import HttpResponse
+                captcha_response = 'Message Sent'
+                header = ("From: %s\r\nTo: %s\r\nSubject: %s\r\n"
+                        % (name, settings.EMAILTO, '[mtg.flip-edesign.com] Contact'))
+                msg = header + message
+                server = smtplib.SMTP(settings.HOST)
+                server.set_debuglevel(0)
+                server.sendmail(name, settings.EMAILTO, msg)
+                server.quit()
+            else:
+                from django.http import HttpResponse
+                captcha_response = 'You typed in the Captcha wrong'
+        else:
+            captcha_response = 'Please fill in your name and message'
+
+    return render(request, 'contact.html', {'name': name, 'message': message, 'captcha_response': captcha_response, 'key': settings.RECAPTCHA_PUBLIC_KEY})
+
 

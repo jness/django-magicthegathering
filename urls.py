@@ -11,6 +11,7 @@ urlpatterns = patterns('',
     url(r'^search$', 'mycards.views.search'),
     url(r'^update$', 'mycards.views.update'),
     url(r'^owned$', 'mycards.views.owned'),
+    url(r'^contact$', 'mycards.views.contact'),
     url(r'^gatherer/(.*)$', 'mycards.views.gatherer_lookup'),
 )
 
