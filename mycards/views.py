@@ -77,7 +77,7 @@ def index(request):
     colors = False
     if request.method == 'GET':
         if request.GET.has_key('color'):
-            allowed = ['U', 'B', 'W', 'R', 'G']
+            allowed = ['U', 'B', 'W', 'R', 'G', 'NULL']
             if request.GET['color'] in allowed:
                 colors = request.GET['color']
 
@@ -90,7 +90,10 @@ def index(request):
         display = 0
 
     if colors:
-        cards = Cards.objects.filter(mtgset=s).order_by(order).filter(owned__gte='%s' % display).filter(color=colors)
+        if colors == 'NULL':
+            cards = Cards.objects.filter(mtgset=s).order_by(order).filter(owned__gte='%s' % display).filter(color__isnull=True)
+        else:
+            cards = Cards.objects.filter(mtgset=s).order_by(order).filter(owned__gte='%s' % display).filter(color=colors)
     else:
         cards = Cards.objects.filter(mtgset=s).order_by(order).filter(owned__gte='%s' % display)
     mtgsets = sets()
