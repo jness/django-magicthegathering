@@ -1,0 +1,53 @@
+== django-magicthegathering
+
+AUTHOR:  
+     Jeffrey Ness <jness@flip-edesign.com>
+
+DESCRIPTION:
+     django-magicthegathering is a simple Django application
+     for keeping track of your MTG collection and sharing what 
+     you have with your friends.
+
+LICENSE:
+     django-magicthegathering is Open Source and distributed 
+     under the GPLv3 License 
+
+== Pre Install
+
+First things first, you will need to have the latest version
+of Django insatlled (1.3):
+
+    https://docs.djangoproject.com/en/dev/topics/install/?from=olddocs
+
+The only other requirement for django-magicthegathering is MySQL-Python
+which is available from PyPi:
+
+    http://pypi.python.org/pypi/MySQL-python/1.2.3
+      
+== Download Source
+
+Get the latest django-magicthegathering from our version control:
+
+     $ git clone git://github.com/jness/django-magicthegathering.git
+
+== Configure Application
+
+After you download the source you will need to configure the application
+using the settings.py:
+
+     $ cd django-magicthegathering
+     $ cp settings.py-example settings.py
+
+Go ahead and edit settings.py with your MySQL Database credentials
+and save the file.
+
+== Sync the Databases
+
+Using the Django manage.py script we can create and sync all needed
+application databases (including the Magic card info):
+
+     $ python manage.py syncdb
+
+== Test the Application
+
+     $ python manage.py runserver
