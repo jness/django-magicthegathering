@@ -1,7 +1,6 @@
 {% include 'header.html' %}
 <!-- start card output --!>
 <ul class="hoverbox">
-
 <center>
 <table width="1024" border="0" align="center">
     <tr bgcolor="#7D98A6">
@@ -26,7 +25,8 @@
       	   </a>
         </td>
         <td>{{ c.type }}</td>
-        <td>{{ c.cost }}</td>
+
+	<td>{% for i in c.cost %}{% if i in 'UBRGW' %}<img src='/static/images/{{ i }}.gif' />{% else %}{{ i }}{% endif %}{% endfor %}</td>
 
 	{% if c.damage %}
             <td>{{ c.damage }}</td>

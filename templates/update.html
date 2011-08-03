@@ -65,7 +65,8 @@
       	   </a>
         </td>
         <td>{{ c.type }}</td>
-        <td>{{ c.cost }}</td>
+
+	<td>{% for i in c.cost %}{% if i in 'UBRGW' %}<img src='/static/images/{{ i }}.gif' />{% else %}{{ i }}{% endif %}{% endfor %}</td>
 
 	{% if c.damage %}
             <td>{{ c.damage }}</td>
