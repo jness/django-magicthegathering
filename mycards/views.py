@@ -69,7 +69,7 @@ def index(request):
     order = 'name'
     if request.method == 'GET':
         if request.GET.has_key('order_by'):
-            allowed = ['name', 'type', 'rarity']
+            allowed = ['name', 'type', 'rarity', 'owned']
             if request.GET['order_by'] in allowed:
                 order = request.GET['order_by']
 
