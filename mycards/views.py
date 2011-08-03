@@ -73,6 +73,14 @@ def index(request):
             if request.GET['order_by'] in allowed:
                 order = request.GET['order_by']
 
+    # check for color request
+    colors = False
+    if request.method == 'GET':
+        if request.GET.has_key('color'):
+            allowed = ['U', 'B', 'W', 'R', 'G']
+            if request.GET['color'] in allowed:
+                colors = request.GET['color']
+
     s = get_working_set(request)
     try:
         display = int(get_display_all(request))
@@ -81,7 +89,10 @@ def index(request):
     except ValueError:
         display = 0
 
-    cards = Cards.objects.filter(mtgset=s).order_by(order).filter(owned__gte='%s' % display)
+    if colors:
+        cards = Cards.objects.filter(mtgset=s).order_by(order).filter(owned__gte='%s' % display).filter(color=colors)
+    else:
+        cards = Cards.objects.filter(mtgset=s).order_by(order).filter(owned__gte='%s' % display)
     mtgsets = sets()
     return render(request, 'index.html', {'display': display, 'working_set': s, 'cards': cards, 'mtgsets': mtgsets})
 
