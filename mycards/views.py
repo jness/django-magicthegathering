@@ -102,7 +102,7 @@ def index(request):
     else:
         cards = Cards.objects.filter(mtgset=s).order_by(order).filter(owned__gte='%s' % display)
     mtgsets = sets()
-    return render(request, 'index.html', {'display': display, 'working_set': s, 'cards': cards, 'mtgsets': mtgsets})
+    return render(request, 'index.html', {'colors': colors, 'order': order, 'display': display, 'working_set': s, 'cards': cards, 'mtgsets': mtgsets})
 
 def update(request):
     # default order is by name
