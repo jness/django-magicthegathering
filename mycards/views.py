@@ -74,9 +74,12 @@ def index(request):
     order = 'name'
     if request.method == 'GET':
         if request.GET.has_key('order_by'):
-            allowed = ['name', 'type', 'rarity', 'owned']
+            allowed = ['name', 'type', 'rarity', 'owned', 'price']
             if request.GET['order_by'] in allowed:
-                order = request.GET['order_by']
+                if request.GET['order_by'] == 'price':
+                    order = 'prices__price_med'
+                else:
+                    order = request.GET['order_by']
 
     # check for color request
     colors = False
