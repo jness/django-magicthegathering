@@ -11,6 +11,21 @@ from socket import error
 import urllib, urllib2
 import re
 
+def mana_symobls(cards):
+    for card in cards:
+        card.cost = card.cost.replace('{RP}', '<img src="/static/images/rp.gif" />')
+        card.cost = card.cost.replace('{GP}', '<img src="/static/images/gp.gif" />')
+        card.cost = card.cost.replace('{BP}', '<img src="/static/images/bp.gif" />')
+        card.cost = card.cost.replace('{UP}', '<img src="/static/images/up.gif" />')
+        card.cost = card.cost.replace('{WP}', '<img src="/static/images/wp.gif" />')
+
+        card.cost = card.cost.replace('R', '<img src="/static/images/R.gif" />')
+        card.cost = card.cost.replace('G', '<img src="/static/images/G.gif" />')
+        card.cost = card.cost.replace('B', '<img src="/static/images/B.gif" />')
+        card.cost = card.cost.replace('U', '<img src="/static/images/U.gif" />')
+        card.cost = card.cost.replace('W', '<img src="/static/images/W.gif" />')
+    return cards
+
 def get_display_all(request):
     if request.method == 'GET':
         if request.GET.has_key('display'):
@@ -105,6 +120,8 @@ def index(request):
     else:
         cards = Cards.objects.filter(mtgset=s).order_by(order).filter(owned__gte='%s' % display)
     mtgsets = sets()
+    cards = mana_symobls(cards)
+
     return render(request, 'index.html', {'colors': colors, 'order': order, 'display': display, 'working_set': s, 'cards': cards, 'mtgsets': mtgsets})
 
 def update(request):
@@ -119,6 +136,8 @@ def update(request):
     s = get_working_set(request)
     cards = Cards.objects.filter(mtgset=s).order_by(order)
     mtgsets = sets()
+    cards = mana_symobls(cards)
+
     return render(request, 'update.html', {'working_set': s, 'cards': cards, 'mtgsets': mtgsets})
 
 
@@ -160,6 +179,8 @@ def search(request):
         cards = Cards.objects.all().filter(type__icontains=search)
 
     mtgsets = sets()
+    cards = mana_symobls(cards)
+
     return render(request, 'search.html', {'display': display, 'sets_with_cards': sets_with_cards, 'working_set': s, 'cards': cards, 'mtgsets': mtgsets})
 
 def contact(request):
