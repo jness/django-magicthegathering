@@ -14,7 +14,6 @@
    alt="Fork me on GitHub">
 </a>
 
-<!-- start header --!>
 <a href='/'><p align='right'><font size=2 color=blue>home</font></p></a>
 <center>
 <img src='/static/images/logo.jpg'></img><br>
@@ -34,13 +33,13 @@
 </form>
 </center>
 
-<!-- start card output --!>
 <ul class="hoverbox">
 
 <center>
 <form name='owned' action='owned' method='POST'>{% csrf_token %}
 <table width="1024" border="0" align="center">
     <tr bgcolor="#7D98A6">
+        <td width="25"><b><a href='?order_by=wanted'>Wanted</a></b>
         <td width="25"><b><a href='?order_by=owned'>Owned</a></b>
         <td width="300"><b><a href='?order_by=name'>Name</a></b>
         <td width="300"><b><a href='?order_by=type'>Type</a></b>
@@ -55,6 +54,9 @@
     <tr bgcolor='#EEEEEE'
            onmouseover="style.backgroundColor='#b6c5cd';"
            onmouseout="style.backgroundColor='#EEEEEE';">
+        <td>
+            <input size='4' maxlength='10' type="text" name="{{ c.id }}_wanted" value="{{ c.wanted }}"/>
+        </td>
         <td>
 	    <input size='4' maxlength='10' type="text" name="{{ c.id }}" value="{{ c.owned }}"/>
 	</td>

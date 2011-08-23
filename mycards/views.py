@@ -148,6 +148,7 @@ def owned(request):
         if i.isdigit():
             card = Cards.objects.get(id=i)
             card.owned = request.POST[i]
+            card.wanted = request.POST[i + '_wanted']
             card.save()
     return HttpResponseRedirect('/update')
 
@@ -182,6 +183,23 @@ def search(request):
     cards = mana_symobls(cards)
 
     return render(request, 'search.html', {'display': display, 'sets_with_cards': sets_with_cards, 'working_set': s, 'cards': cards, 'mtgsets': mtgsets})
+
+def wanted(request):
+    s = get_working_set(request)
+    try:
+        display = int(get_display_all(request))
+        if display > 1:
+            display = 1
+    except ValueError:
+        display = 0
+        
+    sets_with_cards = Cards.objects.filter(wanted__gt=0).values_list('mtgset', flat=True).distinct()
+    cards = Cards.objects.all().filter(wanted__gt=0)
+
+    mtgsets = sets()
+    cards = mana_symobls(cards)
+
+    return render(request, 'wanted.html', {'display': display, 'sets_with_cards': sets_with_cards, 'working_set': s, 'cards': cards, 'mtgsets': mtgsets})
 
 def contact(request):
 

@@ -1,0 +1,50 @@
+{% include 'slim_header.html' %}
+<ul class="hoverbox">
+
+<center>
+{% for set in sets_with_cards %}
+<h2>{{ set }}</h2>
+<table width="1024" border="0" align="center">
+    <tr bgcolor="#7D98A6">
+        <td width="25"><b>Wanted</b>
+        <td width="300"><b>Name</b>
+        <td width="300"><b>Type</b>
+        <td width="75"><b>Cost</b>
+        <td width="75"><b>Damage</b>
+        <td width="100"><b>Rarity</b>
+        <td width="75"><b>Listed</b>
+    </tr>
+
+    {% for c in cards %}
+    {% if c.mtgset == set %}
+
+    <tr bgcolor='#EEEEEE'
+           onmouseover="style.backgroundColor='#b6c5cd';"
+           onmouseout="style.backgroundColor='#EEEEEE';">
+        <td>{{ c.wanted }}</td>
+        <td>
+           <a class="hoverbox" href="http://www.amazon.com/gp/search?keywords=mtg+{{ c.name}}&tag=flipedesig-20">{{ c.name }}
+              <img src="http://magiccards.info{{ c.image }}" alt="Loading..." class="preview" />
+           </a>
+        </td>
+        <td>{{ c.type }}</td>
+
+        <td>{% autoescape off %}{{ c.cost }}{% endautoescape %}</td>
+
+        {% if c.damage %}
+            <td>{{ c.damage }}</td>
+        {% else %}
+            <td></td>
+        {% endif %}
+
+        <td>{{ c.rarity }}</td>
+        <td>{% if c.prices %} ${{ c.prices.price_med }} {% endif %}</td>
+    </tr>
+    {% endif %}
+    {% endfor %}
+</table>
+<br><br>
+{% endfor %}
+</ul>
+
+{% include 'footer.html' %}

@@ -9,6 +9,7 @@ urlpatterns = patterns('',
     # Examples:
     url(r'^$', 'mycards.views.index'),
     url(r'^search$', 'mycards.views.search'),
+    url(r'^wanted$', 'mycards.views.wanted'),
     url(r'^update$', 'mycards.views.update'),
     url(r'^owned$', 'mycards.views.owned'),
     url(r'^contact$', 'mycards.views.contact'),
