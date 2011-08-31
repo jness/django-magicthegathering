@@ -12,7 +12,6 @@
         <td width="75"><b>Cost</b>
         <td width="75"><b>Damage</b>
         <td width="100"><b>Rarity</b>
-        <td width="75"><b>Listed</b>
     </tr>
 
     {% for c in cards %}
@@ -23,8 +22,9 @@
            onmouseout="style.backgroundColor='#EEEEEE';">
         <td>{{ c.wanted }}</td>
         <td>
-           <a class="hoverbox" href="http://www.amazon.com/gp/search?keywords=mtg+{{ c.name}}&tag=flipedesig-20">{{ c.name }}
-              <img src="http://magiccards.info{{ c.image }}" alt="Loading..." class="preview" />
+           <a target='_blank' class="hoverbox" href="/gatherer/{{ c.name }}" onmouseover="this.children[0].src='http://magic.tcgplayer.com/db/wp-ch.asp?CN={{ c.name|escapejs  }}'"
+>{{ c.name }}
+              <iframe class="preview" width='100' height='100' src='about:blank'></iframe>
            </a>
         </td>
         <td>{{ c.type }}</td>
@@ -38,7 +38,6 @@
         {% endif %}
 
         <td>{{ c.rarity }}</td>
-        <td>{% if c.prices %} ${{ c.prices.price_med }} {% endif %}</td>
     </tr>
     {% endif %}
     {% endfor %}
